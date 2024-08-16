@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login/Registration Form</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <p class="tip">Click on button in image container</p>
+  <div class="cont">
+    <div class="form sign-in">
+      <h2>Welcome back</h2>
+      <label>
+        <span>Email</span>
+        <input type="email" id="login-email" />
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" id="login-password" />
+      </label>
+      <p class="forgot-pass">Forgot password?</p>
+      <button type="button" class="submit" id="login-btn">Sign In</button>
+    </div>
+    <div class="sub-cont">
+      <div class="img">
+        <div class="img__text m--up">
+          <h2>New here?</h2>
+          <p>Sign up and discover great amount of new opportunities!</p>
+        </div>
+        <div class="img__text m--in">
+          <h2>One of us?</h2>
+          <p>If you already have an account, just sign in. We've missed you!</p>
+        </div>
+        <div class="img__btn">
+          <span class="m--up">Sign Up</span>
+          <span class="m--in">Sign In</span>
+        </div>
+      </div>
+      <div class="form sign-up">
+        <h2>Time to feel like home,</h2>
+        <label>
+          <span>Name</span>
+          <input type="text" id="signup-name" />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" id="signup-email" />
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" id="signup-password" />
+        </label>
+        <button type="button" class="submit" id="signup-btn">Sign Up</button> 
+      </div>
+    </div>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelector('.img__btn').addEventListener('click', function () {
+        document.querySelector('.cont').classList.toggle('s--signup');
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+            // Ro'yxatdan o'tish tugmasi uchun hodisani qo'shish
+            document.getElementById('signup-btn').addEventListener('click', function() {
+                // Input maydonlaridagi qiymatlarni olish
+                const logoname = document.getElementById('signup-name').value;
+                const email = document.getElementById('signup-email').value;
+                const password = document.getElementById('signup-password').value;
+
+                // Foydalanuvchi ma'lumotlarini ob'ekt sifatida saqlash
+                const user = {
+                    logoname: logoname,
+                    email: email,
+                    password: password
+                };
+
+                // Foydalanuvchi ma'lumotlarini JSON formatida LocalStorage-ga saqlash
+                localStorage.setItem('user', JSON.stringify(user));
+
+                // Foydalanuvchini muvaffaqiyatli ro'yxatdan o'tkazilgani haqida bildirish
+                alert('Ro\'yxatdan o\'tish muvaffaqiyatli amalga oshirildi!');
+
+                // Ro'yxatdan o'tgandan so'ng avtomatik ravishda kirish
+                document.getElementById('login-email').value = email;
+                document.getElementById('login-password').value = password;
+                document.getElementById('login-btn').click();
+            });
+
+            // Kirish tugmasi uchun hodisani qo'shish
+            document.getElementById('login-btn').addEventListener('click', function() {
+                const email = document.getElementById('login-email').value;
+                const password = document.getElementById('login-password').value;
+
+                // LocalStorage-dan foydalanuvchi ma'lumotlarini olish
+                const storedUser = JSON.parse(localStorage.getItem('user'));
+
+                // Foydalanuvchi ma'lumotlarini tekshirish
+                if (storedUser && storedUser.email === email && storedUser.password === password) {
+                    alert('Kirish muvaffaqiyatli amalga oshirildi!');
+                    // User muvaffaqiyatli kirgandan so'ng index.html sahifasiga yo'naltirish
+                    window.location.href = '/index.html';
+                } else {
+                    alert('Email yoki parol noto\'g\'ri. Iltimos, qayta urinib ko\'ring.');
+                }
+            });
+        });
+  </script>
+  </body>
+
+</html>
